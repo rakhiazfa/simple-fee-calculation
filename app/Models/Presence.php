@@ -65,13 +65,13 @@ class Presence extends Model
         $oneOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
         $fourOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 16:00:00');
 
-        $jamSelesaiIstirahat = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
+        $habisDzuhur = $this->carbonHabisDzuhur();
         $jamIstirahan = 1;
 
         $jamNormal = $this->status == "Sabtu" ? $oneOClockInTheAfternoon->diffInHours($startTime) :
             $fourOClockInTheAfternoon->diffInHours($startTime);
 
-        if ($jamSelesaiIstirahat->isBetween($startTime, $finishTime)) {
+        if ($habisDzuhur->isBetween($startTime, $finishTime)) {
 
             $jamNormal -= $jamIstirahan;
         }
@@ -89,12 +89,11 @@ class Presence extends Model
         $startTime = $this->carbonStartTime();
         $finishTime = $this->carbonFinishTime();
 
-        $currentDate = $startTime->format('Y-m-d');
-        $habisMagrib = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 19:00:00');
+        $habisDzuhur = $this->carbonHabisDzuhur();
 
         if ($this->status == "Libur") {
 
-            if ($habisMagrib->isBetween($startTime, $finishTime)) {
+            if ($habisDzuhur->isBetween($startTime, $finishTime)) {
 
                 return $this->normal_hours + 1;
             }
@@ -110,15 +109,13 @@ class Presence extends Model
         $startTime = $this->carbonStartTime();
         $finishTime = $this->carbonFinishTime();
 
-        $currentDate = $startTime->format('Y-m-d');
-
-        $jamSelesaiIstirahat = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 19:00:00');
+        $habisMagrib = $this->carbonHabisMagrib();
         $jamIstirahat = 1;
 
         $jamNormalTanpaIstirahat = $this->normal_hours_without_rest;
         $jamLembur = $this->hour_difference - $jamNormalTanpaIstirahat;
 
-        if ($jamSelesaiIstirahat->isBetween($startTime, $finishTime)) {
+        if ($habisMagrib->isBetween($startTime, $finishTime)) {
 
             $jamLembur -= $jamIstirahat;
         }
@@ -202,5 +199,21 @@ class Presence extends Model
     private function carbonFinishTime()
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
+    }
+
+    private function carbonHabisDzuhur()
+    {
+        $startTime = $this->carbonStartTime();
+        $currentDate = $startTime->format('Y-m-d');
+
+        return Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
+    }
+
+    private function carbonHabisMagrib()
+    {
+        $startTime = $this->carbonStartTime();
+        $currentDate = $startTime->format('Y-m-d');
+
+        return Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 19:00:00');
     }
 }
