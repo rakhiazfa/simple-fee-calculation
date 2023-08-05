@@ -38,6 +38,7 @@ class CreatePresenceRequest extends FormRequest
     {
         return [
             'employee_name' => ['required'],
+            'jabatan' => ['required'],
             'start_time' => ['required'],
             'finish_time' => ['required'],
             'status' => ['required', Rule::in(

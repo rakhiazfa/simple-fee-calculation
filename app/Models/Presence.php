@@ -15,6 +15,7 @@ class Presence extends Model
      */
     protected $fillable = [
         'employee_name',
+        'jabatan',
         'start_time',
         'finish_time',
         'status',

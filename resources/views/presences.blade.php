@@ -22,6 +22,14 @@
                     </div>
 
                     <div class="field">
+                        <label class="label">Jabatan</label>
+                        <input type="text" class="control" name="jabatan">
+                        @error('jabatan')
+                            <p class="invalid-field">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="field">
                         <label class="label">Jam Masuk</label>
                         <input type="datetime-local" class="control" name="start_time"
                             value="{{ old('start_time', date('Y-m-d 07:00', strtotime(now()))) }}">
@@ -66,6 +74,7 @@
                         <tr>
                             <th class="text-center" rowspan="3">No</th>
                             <th class="text-center" rowspan="3">Nama</th>
+                            <th class="text-center" rowspan="3">Jabatan</th>
                             <th class="text-center" rowspan="3">Hari</th>
                             <th class="text-center" rowspan="3">Status Hari</th>
                             <th class="text-center" rowspan="3">Jam Masuk</th>
@@ -103,6 +112,7 @@
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $presence->employee_name }}</td>
+                                <td>{{ $presence->jabatan }}</td>
                                 <td>{{ $startTime->format('l') }}</td>
                                 <td>{{ $presence->status }}</td>
                                 <td class="text-center">

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('presences', function (Blueprint $table) {
             $table->id();
             $table->string('employee_name');
+            $table->string('jabatan');
             $table->dateTime('start_time');
             $table->dateTime('finish_time');
             $table->enum('status', ['Normal', 'Sabtu', 'Libur']);
