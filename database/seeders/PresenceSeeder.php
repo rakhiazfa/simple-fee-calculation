@@ -19,7 +19,7 @@ class PresenceSeeder extends Seeder
 
         for ($index = 1; $index <= 19; $index++) {
 
-            sleep(1);
+            sleep(0.25);
 
             $tempSabtu->addHours(1);
 
@@ -37,7 +37,7 @@ class PresenceSeeder extends Seeder
 
         for ($index = 1; $index <= 19; $index++) {
 
-            sleep(1);
+            sleep(0.25);
 
             $tempNormal->addHours(1);
 
@@ -55,7 +55,7 @@ class PresenceSeeder extends Seeder
 
         for ($index = 1; $index <= 19; $index++) {
 
-            sleep(1);
+            sleep(0.25);
 
             $tempMinggu->addHours(1);
 
