@@ -111,7 +111,8 @@
                                 $finishTime = \Illuminate\Support\Carbon::parse($presence->finish_time)->locale('id');
                                 $finishTime->settings(['formatFunction' => 'translatedFormat']);
                             @endphp
-                            <tr>
+                            <tr
+                                class="{{ ($presence->status == 'Libur' ? 'bg-red-100' : $presence->status == 'Sabtu') ? 'bg-blue-100' : 'bg-emerald-100' }}">
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $presence->employee_name }}</td>
                                 <td>{{ $presence->jabatan }}</td>
