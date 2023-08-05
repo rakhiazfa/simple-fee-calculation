@@ -278,7 +278,7 @@ class Presence extends Model
         $startTime = $this->carbonStartTime();
         $currentDate = $startTime->format('Y-m-d');
 
-        return Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
+        return Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 12:00:00');
     }
 
     private function carbonJamSepuluhMalam()
