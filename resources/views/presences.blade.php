@@ -22,16 +22,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Tanggal</label>
-                        <input type="date" class="control" name="date">
-                        @error('date')
-                            <p class="invalid-field">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div class="field">
                         <label class="label">Jam Masuk</label>
-                        <input type="time" class="control" name="start_time">
+                        <input type="datetime-local" class="control" name="start_time"
+                            value="{{ old('start_time', date('Y-m-d 08:00', strtotime(now()))) }}">
                         @error('start_time')
                             <p class="invalid-field">{{ $message }}</p>
                         @enderror
@@ -39,7 +32,8 @@
 
                     <div class="field">
                         <label class="label">Jam Keluar</label>
-                        <input type="time" class="control" name="finish_time">
+                        <input type="datetime-local" class="control" name="finish_time"
+                            value="{{ old('finish_time', date('Y-m-d 08:00', strtotime(now()))) }}">
                         @error('finish_time')
                             <p class="invalid-field">{{ $message }}</p>
                         @enderror

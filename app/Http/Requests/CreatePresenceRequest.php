@@ -15,8 +15,8 @@ class CreatePresenceRequest extends FormRequest
     {
         return [
             'employee_name' => ['required'],
-            'start_time' => ['required', 'date_format:H:i'],
-            'finish_time' => ['required', 'date_format:H:i'],
+            'start_time' => ['required'],
+            'finish_time' => ['required'],
             'is_holiday' => ['required', 'boolean'],
         ];
     }

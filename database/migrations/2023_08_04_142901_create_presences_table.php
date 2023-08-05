@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('presences', function (Blueprint $table) {
             $table->id();
             $table->string('employee_name');
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('finish_time');
+            $table->dateTime('start_time');
+            $table->dateTime('finish_time');
             $table->boolean('is_holiday')->default(false);
             $table->timestamps();
         });

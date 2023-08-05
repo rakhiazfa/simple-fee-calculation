@@ -15,7 +15,6 @@ class Presence extends Model
      */
     protected $fillable = [
         'employee_name',
-        'date',
         'start_time',
         'finish_time',
         'is_holiday',
@@ -26,6 +25,8 @@ class Presence extends Model
      */
     protected $casts = [
         'is_holiday' => 'boolean',
+        'start_time' => 'datetime',
+        'finish_time' => 'datetime',
     ];
 
     /**
@@ -46,16 +47,18 @@ class Presence extends Model
 
     public function getHourDifferenceAttribute()
     {
-        $startTime = Carbon::createFromFormat('H:i:s', $this->start_time);
-        $finishTime = Carbon::createFromFormat('H:i:s', $this->finish_time);
+        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
+        $finishTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
 
         return $finishTime->diffInHours($startTime);
     }
 
     public function getNormalHoursAttribute()
     {
-        $startTime = Carbon::createFromFormat('H:i:s', $this->start_time);
-        $fourOClockInTheAfternoon = Carbon::createFromFormat('H:i:s', '16:00:00');
+        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
+
+        $currentDate = $startTime->format('Y-m-d');
+        $fourOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 16:00:00');
 
         return $fourOClockInTheAfternoon->diffInHours($startTime);
     }
