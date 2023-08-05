@@ -17,14 +17,13 @@ class Presence extends Model
         'employee_name',
         'start_time',
         'finish_time',
-        'is_holiday',
+        'status',
     ];
 
     /**
      * @var array
      */
     protected $casts = [
-        'is_holiday' => 'boolean',
         'start_time' => 'datetime',
         'finish_time' => 'datetime',
     ];
@@ -58,19 +57,34 @@ class Presence extends Model
         $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
 
         $currentDate = $startTime->format('Y-m-d');
+        $oneOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
         $fourOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 16:00:00');
 
-        return $fourOClockInTheAfternoon->diffInHours($startTime);
+        $jamIstirahan = 1;
+
+        if ($this->status == "Sabtu") {
+
+            return $oneOClockInTheAfternoon->diffInHours($startTime) - $jamIstirahan;
+        }
+
+        if ($this->status == "Libur") {
+
+            return 0;
+        }
+
+        return $fourOClockInTheAfternoon->diffInHours($startTime) - $jamIstirahan;
     }
 
     public function getOvertimeAttribute()
     {
-        return $this->hour_difference - $this->normal_hours;
+        return $this->hour_difference - ($this->normal_hours + 1);
     }
 
     public function getFirstHourOfOvertimeAttribute()
     {
-        if ($this->is_holiday && $this->overtime > 0) return 2;
+        $isLibur = $this->status == 'Libur';
+
+        if ($isLibur && $this->overtime > 0) return 2;
 
         if ($this->overtime > 0) return 1.5;
 
@@ -86,8 +100,6 @@ class Presence extends Model
 
     public function getThirdHourOfOvertimeAttribute()
     {
-        if ($this->overtime > 2) return 2;
-
         return 0;
     }
 

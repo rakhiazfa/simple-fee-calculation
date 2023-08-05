@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('employee_name');
             $table->dateTime('start_time');
             $table->dateTime('finish_time');
-            $table->boolean('is_holiday')->default(false);
+            $table->enum('status', ['Normal', 'Sabtu', 'Libur']);
             $table->timestamps();
         });
     }

@@ -24,7 +24,7 @@
                     <div class="field">
                         <label class="label">Jam Masuk</label>
                         <input type="datetime-local" class="control" name="start_time"
-                            value="{{ old('start_time', date('Y-m-d 08:00', strtotime(now()))) }}">
+                            value="{{ old('start_time', date('Y-m-d 07:00', strtotime(now()))) }}">
                         @error('start_time')
                             <p class="invalid-field">{{ $message }}</p>
                         @enderror
@@ -33,22 +33,18 @@
                     <div class="field">
                         <label class="label">Jam Keluar</label>
                         <input type="datetime-local" class="control" name="finish_time"
-                            value="{{ old('finish_time', date('Y-m-d 08:00', strtotime(now()))) }}">
+                            value="{{ old('finish_time', date('Y-m-d 07:00', strtotime(now()))) }}">
                         @error('finish_time')
                             <p class="invalid-field">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="field">
-                        <label class="label mb-5">Status Hari</label>
+                        <label class="label mb-5">Tanggal Merah</label>
                         <div class="flex items-center gap-5">
                             <div class="flex items-center gap-3">
-                                <input type="radio" name="is_holiday" value="1" id="is_holiday_true">
-                                <label class="label mb-0" for="is_holiday_true">Libur</label>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <input type="radio" name="is_holiday" value="0" id="is_holiday_false" checked>
-                                <label class="label mb-0" for="is_holiday_false">Normal</label>
+                                <input type="checkbox" name="is_tanggal_merah" value="1" id="status_tanggal_merah">
+                                <label class="label mb-0" for="status_tanggal_merah">Ya</label>
                             </div>
                         </div>
                     </div>
@@ -70,14 +66,14 @@
                         <tr>
                             <th class="text-center" rowspan="3">No</th>
                             <th class="text-center" rowspan="3">Nama</th>
+                            <th class="text-center" rowspan="3">Hari</th>
+                            <th class="text-center" rowspan="3">Status Hari</th>
                             <th class="text-center" rowspan="3">Jam Masuk</th>
                             <th class="text-center" rowspan="3">Jam Keluar</th>
                             <th class="text-center" rowspan="3">Jam Kerja Normal</th>
                             <th class="text-center" colspan="5">Jam Lembur</th>
                             <th class="text-center" rowspan="3">Total Jam Lembur</th>
                             <th class="text-center" rowspan="3">Total Jam Kerja</th>
-                            <th class="text-center" rowspan="3">Upah / Jam</th>
-                            <th class="text-center" rowspan="3">Upah</th>
                             <th class="text-center" rowspan="3">#</th>
                         </tr>
                         <tr>
@@ -97,14 +93,23 @@
                     </thead>
                     <tbody>
                         @foreach ($presences as $presence)
+                            @php
+                                $startTime = \Illuminate\Support\Carbon::parse($presence->start_time)->locale('id');
+                                $startTime->settings(['formatFunction' => 'translatedFormat']);
+                                
+                                $finishTime = \Illuminate\Support\Carbon::parse($presence->finish_time)->locale('id');
+                                $finishTime->settings(['formatFunction' => 'translatedFormat']);
+                            @endphp
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $presence->employee_name }}</td>
+                                <td>{{ $startTime->format('l') }}</td>
+                                <td>{{ $presence->status }}</td>
                                 <td class="text-center">
-                                    {{ date('H:i', strtotime($presence->start_time)) }}
+                                    {{ $startTime->format('d F Y H:i') }}
                                 </td>
                                 <td class="text-center">
-                                    {{ date('H:i', strtotime($presence->finish_time)) }}
+                                    {{ $finishTime->format('d F Y H:i') }}
                                 </td>
                                 <td class="text-center">{{ $presence->normal_hours }}</td>
                                 <td class="text-center">{{ $presence->first_hour_of_overtime }}</td>
@@ -114,10 +119,6 @@
                                 <td class="text-center">{{ $presence->more_than_four_hours_of_overtime }}</td>
                                 <td class="text-center">{{ $presence->total_overtime }}</td>
                                 <td class="text-center">{{ $presence->total_hours_worked }}</td>
-                                <td class="text-center">{{ 'Rp. ' . number_format(25000) }}</td>
-                                <td class="text-center">
-                                    {{ 'Rp. ' . number_format($presence->total_hours_worked * 25000) }}
-                                </td>
                                 <td>
                                     <div class="flex items-center gap-3">
 

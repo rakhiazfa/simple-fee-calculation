@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePresenceRequest;
 use App\Models\Presence;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class PresenceController extends Controller
 {
@@ -13,7 +14,7 @@ class PresenceController extends Controller
      */
     public function index()
     {
-        $presences = Presence::latest()->get();
+        $presences = Presence::whereDate('created_at', Carbon::today())->latest()->get();
 
         return view('presences')->with('presences', $presences);
     }
