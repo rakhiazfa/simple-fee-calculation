@@ -281,11 +281,13 @@
     }
     .table.bordered th,
     .table.bordered td {
-        @apply border border-gray-200;
+        @apply border border-gray-400;
     }
-    .table.bordered-b th,
+    .table.bordered-b th {
+        @apply border border-gray-400;
+    }
     .table.bordered-b td {
-        @apply border-b border-gray-200;
+        @apply border-b border-gray-400;
     }
     .table.table-sm th,
     .table.table-sm td {

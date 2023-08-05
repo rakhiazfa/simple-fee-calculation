@@ -69,7 +69,7 @@
 
         <div class="w-full bg-white p-5">
             <div class="table-responsive">
-                <table class="table table-xs bordered">
+                <table class="table table-xs bordered-b">
                     <thead>
                         <tr>
                             <th class="text-center" rowspan="3">No</th>
