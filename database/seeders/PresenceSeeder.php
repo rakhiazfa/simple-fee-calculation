@@ -19,8 +19,6 @@ class PresenceSeeder extends Seeder
 
         for ($index = 1; $index <= 19; $index++) {
 
-            sleep(0.25);
-
             $tempSabtu->addHours(1);
 
             Presence::create([
@@ -37,8 +35,6 @@ class PresenceSeeder extends Seeder
 
         for ($index = 1; $index <= 19; $index++) {
 
-            sleep(0.25);
-
             $tempNormal->addHours(1);
 
             Presence::create([
@@ -54,8 +50,6 @@ class PresenceSeeder extends Seeder
         $tempMinggu = Carbon::createFromFormat('Y-m-d H:i', '2023-08-06 07:00');
 
         for ($index = 1; $index <= 19; $index++) {
-
-            sleep(0.25);
 
             $tempMinggu->addHours(1);
 

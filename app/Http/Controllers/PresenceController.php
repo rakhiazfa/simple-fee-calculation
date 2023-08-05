@@ -14,7 +14,7 @@ class PresenceController extends Controller
      */
     public function index()
     {
-        $presences = Presence::whereDate('created_at', Carbon::today())->latest()->get();
+        $presences = Presence::whereDate('created_at', Carbon::today())->orderBy('id', 'DESC')->get();
 
         return view('presences')->with('presences', $presences);
     }
