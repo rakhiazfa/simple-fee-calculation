@@ -1,0 +1,445 @@
+@import "./fonts.css";
+
+/* ----------------------------------------------------------
+| Unicons
+---------------------------------------------------------- */
+
+@import "@iconscout/unicons/css/solid.css";
+@import "@iconscout/unicons/css/line.css";
+@import "@iconscout/unicons/css/line.css";
+
+/* ----------------------------------------------------------
+| Tailwind CSS 
+---------------------------------------------------------- */
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@layer base {
+
+    body {
+        @apply text-[0.95rem] font-inter antialiased;
+    }
+
+    input, textarea, select {
+        @apply block w-full outline-none transition-all duration-300;
+    }
+
+    input[type="radio"] {
+        @apply w-max h-max;
+    }
+
+    option:disabled {
+        @apply bg-gray-200;
+    }
+
+    span {
+        @apply text-inherit;
+    }
+
+    button span {
+        @apply pointer-events-none;
+    }
+    
+    button .uil,
+    button .uis {
+        @apply pointer-events-none;
+    }
+
+    ::-webkit-scrollbar {
+        @apply w-[3px] md:w-[4px] 
+        h-[3px] md:h-[4px];
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-800 bg-opacity-50 rounded-full;
+    }   
+
+    .uil, .uis {
+        @apply text-2xl text-inherit;
+    }
+
+}
+
+@layer components {
+
+    .wrapper {
+        @apply w-full max-w-[1140px] 2xl:max-w-[1560px] 
+        mx-auto px-4 md:px-12;
+    }
+
+    .field {
+        @apply relative;
+    }
+    .label {
+        @apply block text-xs text-gray-600 font-medium mb-2;
+    }
+    .control {
+        @apply text-[0.9rem] focus:outline-blue-500 
+        border border-gray-300 rounded-md px-3 py-2;
+    }
+    .invalid-field {
+        @apply text-[0.725rem] text-red-500 mt-2 ml-1 -mb-1;
+    }
+
+    .button {
+        @apply flex justify-center items-center 
+        text-[0.85rem] font-medium tracking-wide 
+        px-8 py-2 transition-all duration-200;
+    }
+    .button.primary {
+        @apply bg-blue-500 hover:bg-blue-600 
+        text-white rounded-md shadow-md;
+    }
+
+    /*
+    | Admin Template Styles
+    */
+
+    .admin-wrapper {
+        @apply w-full h-screen overflow-hidden 
+        grid grid-cols-1 lg:grid-cols-[265px,1fr] 
+        2xl:grid-cols-[300px,1fr] bg-[#f6f8fa] mx-auto 
+        max-w-[2560px];
+    }
+    .admin-wrapper .overlay {
+        @apply absolute inset-0 bg-black 
+        bg-opacity-50 hidden z-[750];
+    }
+    .admin-wrapper .overlay.active {
+        @apply block lg:hidden;
+    }
+    .admin-wrapper .content {
+        @apply h-screen overflow-y-auto;
+    }
+    .admin-wrapper .main {
+        @apply px-5 md:px-7 2xl:px-9 pb-5; 
+    }
+    .admin-wrapper section {
+        @apply pt-5 pb-2;
+    }
+
+    /*
+    | Sidebar Styles
+    */
+
+    .sidebar {
+        @apply w-[265px] lg:w-[265px] 2xl:w-[300px] h-screen bg-white 
+        absolute lg:static shadow-xxs transform lg:transform-none 
+        translate-x-[-100%] lg:translate-x-0 transition-all 
+        duration-300 z-[1000];
+    }
+    .sidebar.active {
+        @apply translate-x-0;
+    }
+    .sidebar .sidebar-header {
+        @apply h-[85px] flex justify-start items-center mb-5;
+    }
+    .sidebar .menu-wrapper {
+        @apply h-[calc(100vh-120px)] overflow-y-auto;
+    }
+    .sidebar .menu-title {
+        @apply text-xs lg:text-[0.8rem] font-medium 
+        uppercase px-4 text-gray-600 my-5;
+    }
+    .sidebar .sidebar-menu {
+        @apply grid;
+    }
+    .sidebar .sidebar-link {
+        @apply w-full h-[50px] flex items-center gap-3 
+        hover:bg-gray-50 text-gray-600 px-4 relative 
+        hover:px-6 transition-all duration-200;
+    }
+    .sidebar .sidebar-link.dropdown-toggler {
+        @apply hover:px-4;
+    }
+    .sidebar .sidebar-link span {
+        @apply text-[0.775rem] 2xl:text-sm font-normal;
+    }
+    .sidebar .sidebar-link span,
+    .sidebar .sidebar-link .uil,
+    .sidebar .sidebar-link .uis {
+        @apply text-gray-600;
+    }
+    .sidebar .sidebar-link.active {
+        @apply bg-gray-50;
+    }
+    .sidebar .sidebar-link.active::before {
+        content: "";
+
+        @apply block absolute left-0 h-full w-[5px] bg-blue-500;
+    }
+    .sidebar .sidebar-link.active span, 
+    .sidebar .sidebar-link.active .uil, 
+    .sidebar .sidebar-link.active .uis {
+        @apply font-semibold;
+    }
+    .sidebar .sidebar-dropdown {
+        @apply relative;
+    }
+    .sidebar .sidebar-dropdown .uil-angle-down, 
+    .sidebar .sidebar-dropdown .uil-angle-up {
+        @apply absolute top-[50%] right-3 
+        transform translate-y-[-50%];
+    }
+    .sidebar .sidebar-dropdown .dropdown-menu {
+        @apply h-0 overflow-hidden 
+        transition-all duration-300 
+        flex flex-col justify-center;
+    }
+    .sidebar .sidebar-dropdown .dropdown-menu .sidebar-link {
+        @apply px-10 hover:px-12;
+    }
+
+    /*
+    | Topbar Styles
+    */
+
+    .topbar {
+        @apply w-full h-[75px] 
+        lg:h-[100px] flex items-center;
+    }
+    .topbar .topbar-container {
+        @apply w-full flex justify-between items-start 
+        px-5 md:px-7 2xl:px-9;
+    }
+    .topbar .topbar-left {
+        @apply flex items-center gap-x-5;
+    }
+    .topbar .sidebar-toggler {
+        @apply block lg:hidden;
+    }
+    .topbar .topbar-title {
+        @apply text-2xl font-bold tracking-wide;
+    }
+    .topbar .topbar-dropdown {
+        @apply relative;
+    }
+    .topbar .dropdown-toggler {
+        @apply flex items-center gap-3;
+    }
+    .topbar .topbar-menu {
+        @apply flex items-center gap-7;
+    }
+    .topbar .topbar-dropdown .dropdown-menu {
+        @apply absolute top-12 right-0 w-[250px] 
+        bg-white rounded-lg shadow-md p-2 
+        hidden z-[500];
+    }
+    .topbar .topbar-dropdown .dropdown-menu.active {
+        @apply block;
+    }
+    .topbar .topbar-dropdown .dropdown-link {
+        @apply flex items-center gap-3 px-3 py-2 
+        hover:bg-gray-50 rounded-lg 
+        text-gray-500;
+    }
+    .topbar .topbar-dropdown .dropdown-link span {
+        @apply text-[0.8rem] lg:text-xs font-normal;
+    }
+    .topbar .topbar-dropdown .uil,
+    .topbar .topbar-dropdown .uis {
+        @apply text-base lg:text-lg;
+    }
+    .topbar .user-profile .dropdown-toggler span {
+        @apply text-[0.925rem] text-gray-500 font-normal;
+    }
+
+    /*
+    | Table Styles
+    */
+
+    .table-responsive {
+        @apply w-full overflow-auto whitespace-nowrap text-left;
+    }
+    .table {
+        @apply w-full rounded-sm overflow-hidden whitespace-nowrap;
+    }
+    .table thead {
+        @apply bg-gray-100 uppercase;
+    }
+    .table thead th {
+        @apply text-xs md:text-[0.8rem] 
+        text-gray-500 font-medium py-5;
+    }
+    .table th {
+        @apply text-gray-600 font-medium;
+    }
+    .table th,
+    .table td {
+        @apply text-xs md:text-sm px-8 py-4;
+    }
+    .table .table-actions {
+        @apply flex items-center gap-7;
+    }
+    .table .table-actions .uil,
+    .table .table-actions .uis {
+        @apply text-[1.2rem] text-gray-500;
+    }
+    .table.bordered th,
+    .table.bordered td {
+        @apply border border-gray-200;
+    }
+    .table.bordered-b th,
+    .table.bordered-b td {
+        @apply border-b border-gray-200;
+    }
+    .table.table-sm th,
+    .table.table-sm td {
+        @apply text-xs px-6 py-[0.875rem];
+    }
+    .table.table-xs th,
+    .table.table-xs td {
+        @apply text-[0.65rem] font-medium px-5 py-[0.5rem];
+    }
+
+    /*
+    | Modal Styles
+    */
+
+    .modal {
+        @apply fixed inset-0 z-[15000] bg-[rgba(0,0,0,0.75)] 
+        hidden justify-center items-center px-6 sm:px-8 md:px-12 
+        overflow-hidden top-0;
+    }
+    .modal.show {
+        @apply flex;
+    }
+    .modal .modal-content {
+        animation-name: modal-show;
+        animation-duration: 0.4s;
+
+        @apply relative w-[90%] sm:w-[450px] 
+        bg-white rounded-md shadow-md;
+    }
+    .modal.modal-lg .modal-content {
+        animation-name: modal-show;
+        animation-duration: 0.4s;
+
+        @apply relative w-[90%] sm:w-[550px] 
+        bg-white rounded-md shadow-md;
+    }
+    .modal.modal-xl .modal-content {
+        animation-name: modal-show;
+        animation-duration: 0.4s;
+
+        @apply relative w-[90%] sm:w-[650px] 
+        bg-white rounded-md shadow-md;
+    }
+    .modal .modal-content.top {
+        @apply absolute top-16;
+    }
+    .modal .modal-content .header {
+        @apply font-medium border-b p-5;
+    }
+    .modal .modal-content .body {
+        @apply text-sm border-b p-5;
+    }
+    .modal .modal-content .footer {
+        @apply text-sm px-5 py-3;
+    }
+
+    /*
+    | Alert
+    */
+
+    .alert {
+        @apply relative flex items-center gap-3 text-xs 
+        font-normal rounded-lg px-4 py-[0.5rem];
+    }
+    .alert .icon {
+        @apply text-xl text-inherit;
+    }
+    .alert.success {
+        @apply border-2 border-emerald-300 
+        bg-emerald-100 text-emerald-600;
+    }
+    .alert.error {
+        @apply border-2 border-red-400 
+        bg-red-100 text-red-600;
+    }
+    .alert.warning {
+        @apply border-2 border-yellow-500 
+        bg-yellow-100 text-yellow-600;
+    }
+    .alert.info {
+        @apply border-2 border-cyan-400 
+        bg-cyan-100 text-cyan-600;
+    }
+    .alert .close-alert {
+        @apply absolute top-[50%] right-3 
+        transform translate-y-[-50%] cursor-pointer 
+        text-lg;
+    }
+
+    /*
+    | Loader
+    */
+
+    .preloader {
+        @apply fixed top-0 inset-0 z-[30000] 
+        flex justify-center items-center 
+        bg-white;
+    }
+
+    .lds-ripple {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+    }
+
+    .lds-ripple div {
+        position: absolute;
+        border: 4px solid #1d4ed8;
+        opacity: 1;
+        border-radius: 50%;
+        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+    .lds-ripple div:nth-child(2) {
+        animation-delay: -0.5s;
+    }
+}
+
+@keyframes modal-show {
+    0% {
+        opacity: 0;
+    } 100% {
+        opacity: 1;
+    }
+}
+
+@keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+        }
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+}
