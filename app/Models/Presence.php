@@ -35,6 +35,7 @@ class Presence extends Model
     protected $appends = [
         'hour_difference',
         'normal_hours',
+        'normal_hours_without_rest',
         'overtime',
         'first_hour_of_overtime',
         'second_hour_of_overtime',
@@ -49,16 +50,16 @@ class Presence extends Model
 
     public function getHourDifferenceAttribute()
     {
-        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
-        $finishTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
+        $startTime = $this->carbonStartTime();
+        $finishTime = $this->carbonFinishTime();
 
         return $finishTime->diffInHours($startTime);
     }
 
     public function getNormalHoursAttribute()
     {
-        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
-        $finishTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
+        $startTime = $this->carbonStartTime();
+        $finishTime = $this->carbonFinishTime();
 
         $currentDate = $startTime->format('Y-m-d');
         $oneOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
@@ -83,17 +84,38 @@ class Presence extends Model
         return  $jamNormal;
     }
 
+    public function getNormalHoursWithoutRestAttribute()
+    {
+        $startTime = $this->carbonStartTime();
+        $finishTime = $this->carbonFinishTime();
+
+        $currentDate = $startTime->format('Y-m-d');
+        $habisMagrib = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 19:00:00');
+
+        if ($this->status == "Libur") {
+
+            if ($habisMagrib->isBetween($startTime, $finishTime)) {
+
+                return $this->normal_hours + 1;
+            }
+
+            return $this->normal_hours;
+        }
+
+        return $this->normal_hours + 1;
+    }
+
     public function getOvertimeAttribute()
     {
-        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
-        $finishTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
+        $startTime = $this->carbonStartTime();
+        $finishTime = $this->carbonFinishTime();
 
         $currentDate = $startTime->format('Y-m-d');
 
         $jamSelesaiIstirahat = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 19:00:00');
         $jamIstirahat = 1;
 
-        $jamNormalTanpaIstirahat = ($this->normal_hours + 1);
+        $jamNormalTanpaIstirahat = $this->normal_hours_without_rest;
         $jamLembur = $this->hour_difference - $jamNormalTanpaIstirahat;
 
         if ($jamSelesaiIstirahat->isBetween($startTime, $finishTime)) {
@@ -170,5 +192,15 @@ class Presence extends Model
     public function getUmLemburAttribute()
     {
         return $this->overtime > 5 ? 1 : 0;
+    }
+
+    private function carbonStartTime()
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
+    }
+
+    private function carbonFinishTime()
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
     }
 }
