@@ -79,10 +79,12 @@
                             <th class="text-center" rowspan="3">Status Hari</th>
                             <th class="text-center" rowspan="3">Jam Masuk</th>
                             <th class="text-center" rowspan="3">Jam Keluar</th>
-                            <th class="text-center" rowspan="3">Jam Kerja Normal</th>
                             <th class="text-center" colspan="5">Jam Lembur</th>
-                            <th class="text-center" rowspan="3">Total Jam Lembur</th>
+                            <th class="text-center" rowspan="3">Jam Kerja Normal</th>
+                            <th class="text-center" rowspan="3">Jam Kerja Lembur</th>
                             <th class="text-center" rowspan="3">Total Jam Kerja</th>
+                            <th class="text-center" rowspan="3">UM Normal</th>
+                            <th class="text-center" rowspan="3">UM Lembur</th>
                             <th class="text-center" rowspan="3">#</th>
                         </tr>
                         <tr>
@@ -121,18 +123,21 @@
                                 <td class="text-center">
                                     {{ $finishTime->format('d F Y H:i') }}
                                 </td>
-                                <td class="text-center">{{ $presence->normal_hours }}</td>
                                 <td class="text-center">{{ $presence->first_hour_of_overtime }}</td>
                                 <td class="text-center">{{ $presence->second_hour_of_overtime }}</td>
                                 <td class="text-center">{{ $presence->third_hour_of_overtime }}</td>
                                 <td class="text-center">{{ $presence->fourth_hour_of_overtime }}</td>
                                 <td class="text-center">{{ $presence->more_than_four_hours_of_overtime }}</td>
+                                <td class="text-center">{{ $presence->normal_hours }}</td>
                                 <td class="text-center">{{ $presence->total_overtime }}</td>
                                 <td class="text-center">{{ $presence->total_hours_worked }}</td>
+                                <td class="text-center">{{ $presence->um_normal }}</td>
+                                <td class="text-center">{{ $presence->um_lembur }}</td>
                                 <td>
                                     <div class="flex items-center gap-3">
 
-                                        <button type="button" class="modal-trigger" data-target="#deletePresenceModal">
+                                        <button type="button" class="modal-trigger"
+                                            data-target="#deletePresenceModal">
                                             <i class="text-lg text-red-500 uil uil-trash"></i>
                                         </button>
 

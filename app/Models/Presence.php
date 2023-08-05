@@ -43,6 +43,8 @@ class Presence extends Model
         'more_than_four_hours_of_overtime',
         'total_overtime',
         'total_hours_worked',
+        'um_normal',
+        'um_lembur',
     ];
 
     public function getHourDifferenceAttribute()
@@ -56,16 +58,21 @@ class Presence extends Model
     public function getNormalHoursAttribute()
     {
         $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
+        $finishTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
 
         $currentDate = $startTime->format('Y-m-d');
         $oneOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
         $fourOClockInTheAfternoon = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 16:00:00');
 
+        $jamSelesaiIstirahat = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
         $jamIstirahan = 1;
 
-        if ($this->status == "Sabtu") {
+        $jamNormal = $this->status == "Sabtu" ? $oneOClockInTheAfternoon->diffInHours($startTime) :
+            $fourOClockInTheAfternoon->diffInHours($startTime);
 
-            return $oneOClockInTheAfternoon->diffInHours($startTime) - $jamIstirahan;
+        if ($jamSelesaiIstirahat->isBetween($startTime, $finishTime)) {
+
+            $jamNormal -= $jamIstirahan;
         }
 
         if ($this->status == "Libur") {
@@ -73,12 +80,28 @@ class Presence extends Model
             return 0;
         }
 
-        return $fourOClockInTheAfternoon->diffInHours($startTime) - $jamIstirahan;
+        return  $jamNormal;
     }
 
     public function getOvertimeAttribute()
     {
-        return $this->hour_difference - ($this->normal_hours + 1);
+        $startTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->start_time);
+        $finishTime = Carbon::createFromFormat('Y-m-d H:i:s', $this->finish_time);
+
+        $currentDate = $startTime->format('Y-m-d');
+
+        $jamSelesaiIstirahat = Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 19:00:00');
+        $jamIstirahat = 1;
+
+        $jamNormalTanpaIstirahat = ($this->normal_hours + 1);
+        $jamLembur = $this->hour_difference - $jamNormalTanpaIstirahat;
+
+        if ($jamSelesaiIstirahat->isBetween($startTime, $finishTime)) {
+
+            $jamLembur -= $jamIstirahat;
+        }
+
+        return $jamLembur;
     }
 
     public function getFirstHourOfOvertimeAttribute()
@@ -101,6 +124,8 @@ class Presence extends Model
 
     public function getThirdHourOfOvertimeAttribute()
     {
+        if ($this->overtime > 2) return 2;
+
         return 0;
     }
 
@@ -130,5 +155,20 @@ class Presence extends Model
     public function getTotalHoursWorkedAttribute()
     {
         return $this->normal_hours + $this->total_overtime;
+    }
+
+    public function getUmNormalAttribute()
+    {
+        if ($this->status == "Libur") {
+
+            return 1;
+        }
+
+        return $this->normal_hours > 0 ? 1 : 0;
+    }
+
+    public function getUmLemburAttribute()
+    {
+        return $this->overtime > 5 ? 1 : 0;
     }
 }
