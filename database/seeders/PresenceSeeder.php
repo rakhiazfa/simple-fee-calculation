@@ -59,6 +59,7 @@ class PresenceSeeder extends Seeder
                 'start_time' => $minggu->format('Y-m-d H:i'),
                 'finish_time' => $tempMinggu->format('Y-m-d H:i'),
                 'status' => 'Libur',
+                'created_at' => $tempMinggu->format('Y-m-d H:i'),
             ]);
         }
     }
