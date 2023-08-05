@@ -197,17 +197,22 @@ class Presence extends Model
 
     public function getUmNormalAttribute()
     {
-        if ($this->status == "Libur") {
+        $startTime = $this->carbonStartTime();
+        $finishTime = $this->carbonFinishTime();
 
-            return 1;
-        }
+        $jamPulang = $this->status == "Sabtu" ? $this->carbonJamPulangSabtu() : $this->carbonJamPulangNormal();
 
-        return $this->normal_hours > 0 ? 1 : 0;
+        return $jamPulang->isBetween($startTime, $finishTime) ? 1 : 0;
     }
 
     public function getUmLemburAttribute()
     {
-        return $this->overtime > 5 ? 1 : 0;
+        $startTime = $this->carbonStartTime();
+        $finishTime = $this->carbonFinishTime();
+
+        $jamSepuluhMalam = $this->carbonJamSepuluhMalam();
+
+        return $jamSepuluhMalam->isBetween($startTime, $finishTime) ? 1 : 0;
     }
 
     private function diantaraJamPulangNormal()
@@ -274,6 +279,14 @@ class Presence extends Model
         $currentDate = $startTime->format('Y-m-d');
 
         return Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 13:00:00');
+    }
+
+    private function carbonJamSepuluhMalam()
+    {
+        $startTime = $this->carbonStartTime();
+        $currentDate = $startTime->format('Y-m-d');
+
+        return Carbon::createFromFormat('Y-m-d H:i:s', $currentDate . ' 22:00:00');
     }
 
     private function carbonIstirahatPertama()
