@@ -38,6 +38,14 @@
                     </a>
                 </li>
 
+                <li>
+                    <a class="sidebar-link {{ request()->routeIs('reports*') ? 'active' : '' }}"
+                        href="{{ route('reports') }}">
+                        <i class="uil uil-file-alt"></i>
+                        <span> Laporan </span>
+                    </a>
+                </li>
+
             </ul>
         </nav>
     </div>

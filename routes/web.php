@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,4 +35,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('/presences', PresenceController::class);
+
+    Route::get('/reports', ReportController::class)->name('reports');
 });
