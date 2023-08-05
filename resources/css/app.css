@@ -88,11 +88,11 @@
     .button {
         @apply flex justify-center items-center 
         text-[0.85rem] font-medium tracking-wide 
-        px-8 py-2 transition-all duration-200;
+        px-8 py-2 transition-all duration-200 
+        rounded-md shadow-md;
     }
     .button.primary {
-        @apply bg-blue-500 hover:bg-blue-600 
-        text-white rounded-md shadow-md;
+        @apply bg-blue-500 hover:bg-blue-600 text-white;
     }
 
     /*
