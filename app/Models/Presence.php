@@ -197,12 +197,7 @@ class Presence extends Model
 
     public function getUmNormalAttribute()
     {
-        $startTime = $this->carbonStartTime();
-        $finishTime = $this->carbonFinishTime();
-
-        $jamPulang = $this->status == "Sabtu" ? $this->carbonJamPulangSabtu() : $this->carbonJamPulangNormal();
-
-        return $jamPulang->isBetween($startTime, $finishTime) ? 1 : 0;
+        return 1;
     }
 
     public function getUmLemburAttribute()
