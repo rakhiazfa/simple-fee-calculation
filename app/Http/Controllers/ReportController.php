@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $presences = Presence::orderBy('id', 'DESC')->get();
+        $q = $request->get('q', false);
+
+        $presences = Presence::when($q, function ($query) use ($q) {
+            $query->where('employee_name', 'LIKE', "%$q%");
+        })->orderBy('id', 'DESC')->get();
 
         return view('reports')->with('presences', $presences);
     }

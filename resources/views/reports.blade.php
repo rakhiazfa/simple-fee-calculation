@@ -3,6 +3,19 @@
     <section class="grid grid-cols-1 gap-5">
 
         <div class="w-full bg-white p-5">
+            <form method="GET" class="flex items-center gap-5">
+                <div class="w-full field">
+                    <input type="text" class="control" name="q" placeholder="Search . . ."
+                        value="{{ request()->get('q') }}">
+                </div>
+                <a href="{{ route('reports') }}">
+                    <i class="uil uil-sync text-lg"></i>
+                </a>
+                <button type="submit" class="button primary">Search</button>
+            </form>
+        </div>
+
+        <div class="w-full bg-white p-5">
             <div class="table-responsive">
                 <table class="table table-xs bordered">
                     <thead>
