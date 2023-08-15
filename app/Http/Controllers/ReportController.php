@@ -12,7 +12,7 @@ class ReportController extends Controller
         $q = $request->get('q', false);
 
         $presences = Presence::when($q, function ($query) use ($q) {
-            $query->where('employee_name', 'LIKE', "%$q%");
+            $query->whereRaw("employee_name REGEXP '(^|[[:space:]])$q([[:space:]]|$)'");
         })->orderBy('id', 'DESC')->get();
 
         return view('reports')->with('presences', $presences);
