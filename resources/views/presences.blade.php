@@ -138,7 +138,7 @@
                                     <div class="flex items-center gap-3">
 
                                         <button type="button" class="modal-trigger"
-                                            data-target="#deletePresenceModal">
+                                            data-target="#deletePresenceModal-{{ $presence->id }}">
                                             <i class="text-lg text-red-500 uil uil-trash"></i>
                                         </button>
 
@@ -146,13 +146,13 @@
                                 </td>
                             </tr>
 
-                            <div class="modal" id="deletePresenceModal">
+                            <div class="modal" id="deletePresenceModal-{{ $presence->id }}">
                                 <div class="modal-content top">
                                     <div class="header">
-                                        <h4>Apakah anda yakin?</h4>
+                                        <h4>Apakah anda yakin? {{ $presence->id }}</h4>
                                     </div>
-                                    <form action="{{ route('presences.destroy', ['presence' => $presence]) }}"
-                                        method="POST" id="deletePresenceForm">
+                                    <form action="{{ route('presences.destroy', ['presence' => $presence->id]) }}"
+                                        method="POST" id="deletePresenceForm-{{ $presence->id }}">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -160,7 +160,8 @@
                                         <button type="button"
                                             class="button bg-gray-100 shadow-none modal-cancel-trigger">Cancel</button>
                                         <button type="button" class="button bg-red-500 text-white form-trigger"
-                                            data-target="#deletePresenceForm" aria-label="Delete Account">
+                                            data-target="#deletePresenceForm-{{ $presence->id }}"
+                                            aria-label="Delete Account">
                                             Delete
                                         </button>
                                     </div>
