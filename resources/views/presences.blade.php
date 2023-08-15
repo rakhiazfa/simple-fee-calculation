@@ -110,9 +110,27 @@
                                 
                                 $finishTime = \Illuminate\Support\Carbon::parse($presence->finish_time)->locale('id');
                                 $finishTime->settings(['formatFunction' => 'translatedFormat']);
+                                
+                                $day = $presence->start_time->format('w');
+                                $status = $presence->status;
+                                
+                                if ($status == 'Normal') {
+                                    $status = $day;
+                                }
+                                
+                                $colors = [
+                                    '1' => 'bg-yellow-200',
+                                    '2' => 'bg-emerald-200',
+                                    '3' => 'bg-pink-200',
+                                    '4' => 'bg-gray-200',
+                                    '5' => 'bg-purple-200',
+                                    'Sabtu' => 'bg-blue-200',
+                                    'Libur' => 'bg-red-200',
+                                ];
+                                
+                                $selectedColor = $colors[$status] ?? $colors['Normal'];
                             @endphp
-                            <tr
-                                class="{{ ($presence->status == 'Libur' ? 'bg-red-100' : $presence->status == 'Sabtu') ? 'bg-blue-100' : 'bg-emerald-100' }}">
+                            <tr class="{{ $selectedColor }}">
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $presence->employee_name }}</td>
                                 <td>{{ $presence->jabatan }}</td>
