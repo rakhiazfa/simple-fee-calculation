@@ -15,6 +15,10 @@
             </form>
         </div>
 
+        @php
+            $totalJamKerja = 0;
+        @endphp
+
         <div class="w-full bg-white p-5">
             <div class="table-responsive">
                 <table class="table table-xs bordered">
@@ -133,8 +137,23 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @php
+                                $totalJamKerja += $presence->total_hours_worked;
+                            @endphp
                         @endforeach
                     </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="w-full bg-white p-5">
+            <div class="table-responsive">
+                <table class="table table-sm bordered">
+                    <tr>
+                        <th>Total Jam Kerja</th>
+                        <th>: {{ $totalJamKerja }}</th>
+                    </tr>
                 </table>
             </div>
         </div>
