@@ -17,6 +17,8 @@
 
         @php
             $totalJamKerja = 0;
+            $totalJamKerjaNormal = 0;
+            $totalJamKerjaLembur = 0;
         @endphp
 
         <div class="w-full bg-white p-5">
@@ -139,10 +141,34 @@
                             </div>
 
                             @php
+                                $totalJamKerjaNormal += $presence->normal_hours;
+                                $totalJamKerjaLembur += $presence->total_overtime;
                                 $totalJamKerja += $presence->total_hours_worked;
                             @endphp
                         @endforeach
                     </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="w-full bg-white p-5">
+            <div class="table-responsive">
+                <table class="table table-sm bordered">
+                    <tr>
+                        <th>Total Jam Kerja ( Normal )</th>
+                        <th>: {{ $totalJamKerjaNormal }}</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="w-full bg-white p-5">
+            <div class="table-responsive">
+                <table class="table table-sm bordered">
+                    <tr>
+                        <th>Total Jam Kerja ( Lembur )</th>
+                        <th>: {{ $totalJamKerjaLembur }}</th>
+                    </tr>
                 </table>
             </div>
         </div>
